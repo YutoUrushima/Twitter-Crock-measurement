@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useRef } from 'react';
 import './App.css';
+import axios from 'axios';
+import { useState } from 'react';
 
-function App() {
+// const token = process.env.REACT_APP_BEARER_TOKEN;
+// const endpoint = "https://api.twitter.com/2/tweets?ids=";
+// const endpoint = 'https://api.twitter.com/2/users/2244994946';
+
+const App: React.FC = () => {
+  const [state, setState] = useState('');
+  const button = useRef(null)
+  const fetchData = async() => {
+    await axios.get(
+      "https://yesno.wtf/api"
+    )
+    .then((data) => {
+      setState(data.data.answer)
+      console.log(data.data.answer)
+    })
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <>
+      <p>result: {state}</p>
+      <button type="button" ref={button} onClick={fetchData}>push here</button>
+    </>
+  )
+};
 
 export default App;
